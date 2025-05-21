@@ -24,9 +24,9 @@ public sealed class GitHubOpenApiClientUtil : IGitHubOpenApiClientUtil
         {
             HttpClient httpClient = await httpClientUtil.Get(token).NoSync();
 
-            var apiKey = configuration.GetValueStrict<string>("GitHub:ApiKey");
+            var gitHubToken = configuration.GetValueStrict<string>("GitHub:Token");
 
-            var requestAdapter = new HttpClientRequestAdapter(new BearerAuthenticationProvider(apiKey), httpClient: httpClient);
+            var requestAdapter = new HttpClientRequestAdapter(new BearerAuthenticationProvider(gitHubToken), httpClient: httpClient);
 
             return new GitHubOpenApiClient(requestAdapter);
         });
