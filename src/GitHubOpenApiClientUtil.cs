@@ -20,7 +20,7 @@ public sealed class GitHubOpenApiClientUtil : IGitHubOpenApiClientUtil
 
     public GitHubOpenApiClientUtil(IGitHubHttpClient httpClientUtil, IConfiguration configuration)
     {
-        _client = new AsyncSingleton<GitHubOpenApiClient>(async (token, _) =>
+        _client = new AsyncSingleton<GitHubOpenApiClient>(async token =>
         {
             HttpClient httpClient = await httpClientUtil.Get(token).NoSync();
 
