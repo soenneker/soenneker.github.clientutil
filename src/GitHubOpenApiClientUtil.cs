@@ -17,19 +17,25 @@ namespace Soenneker.GitHub.ClientUtil;
 public sealed class GitHubOpenApiClientUtil : IGitHubOpenApiClientUtil
 {
     private readonly AsyncSingleton<GitHubOpenApiClient> _client;
+    private readonly IGitHubHttpClient _httpClientUtil;
+    private readonly IConfiguration _configuration;
 
     public GitHubOpenApiClientUtil(IGitHubHttpClient httpClientUtil, IConfiguration configuration)
     {
-        _client = new AsyncSingleton<GitHubOpenApiClient>(async token =>
-        {
-            HttpClient httpClient = await httpClientUtil.Get(token).NoSync();
+        _httpClientUtil = httpClientUtil;
+        _configuration = configuration;
+        _client = new AsyncSingleton<GitHubOpenApiClient>(CreateClient);
+    }
 
-            var gitHubToken = configuration.GetValueStrict<string>("GH:Token");
+    private async ValueTask<GitHubOpenApiClient> CreateClient(CancellationToken token)
+    {
+        HttpClient httpClient = await _httpClientUtil.Get(token).NoSync();
 
-            var requestAdapter = new HttpClientRequestAdapter(new BearerAuthenticationProvider(gitHubToken), httpClient: httpClient);
+        var gitHubToken = _configuration.GetValueStrict<string>("GH:Token");
 
-            return new GitHubOpenApiClient(requestAdapter);
-        });
+        var requestAdapter = new HttpClientRequestAdapter(new BearerAuthenticationProvider(gitHubToken), httpClient: httpClient);
+
+        return new GitHubOpenApiClient(requestAdapter);
     }
 
     public ValueTask<GitHubOpenApiClient> Get(CancellationToken cancellationToken = default)
