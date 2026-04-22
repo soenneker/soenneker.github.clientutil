@@ -1,20 +1,19 @@
-﻿using Soenneker.GitHub.ClientUtil.Abstract;
-using Soenneker.Tests.FixturedUnit;
-using Xunit;
+using Soenneker.GitHub.ClientUtil.Abstract;
+using Soenneker.Tests.HostedUnit;
 
 namespace Soenneker.GitHub.ClientUtil.Tests;
 
-[Collection("Collection")]
-public class GitHubOpenApiClientUtilTests : FixturedUnitTest
+[ClassDataSource<Host>(Shared = SharedType.PerTestSession)]
+public class GitHubOpenApiClientUtilTests : HostedUnitTest
 {
     private readonly IGitHubOpenApiClientUtil _kiotaclient;
 
-    public GitHubOpenApiClientUtilTests(Fixture fixture, ITestOutputHelper output) : base(fixture, output)
+    public GitHubOpenApiClientUtilTests(Host host) : base(host)
     {
         _kiotaclient = Resolve<IGitHubOpenApiClientUtil>(true);
     }
 
-    [Fact]
+    [Test]
     public void Default()
     {
 
