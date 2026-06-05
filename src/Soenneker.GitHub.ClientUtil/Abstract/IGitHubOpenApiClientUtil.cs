@@ -10,5 +10,10 @@ namespace Soenneker.GitHub.ClientUtil.Abstract;
 /// </summary>
 public interface IGitHubOpenApiClientUtil : IDisposable, IAsyncDisposable
 {
+    /// <summary>
+    /// Gets the value.
+    /// </summary>
+    /// <param name="cancellationToken">The cancellation token.</param>
+    /// <returns>A task containing the result of the operation.</returns>
     ValueTask<GitHubOpenApiClient> Get(CancellationToken cancellationToken = default);
 }
