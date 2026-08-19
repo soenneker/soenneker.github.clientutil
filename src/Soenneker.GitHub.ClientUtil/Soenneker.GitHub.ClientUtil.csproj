@@ -44,7 +44,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Soenneker.GitHub.Client.Http" Version="4.0.1391" />
+        <PackageReference Include="Soenneker.GitHub.Client.Http" Version="4.0.1393" />
         <PackageReference Include="Soenneker.GitHub.OpenApiClient" Version="4.0.220" />
         <PackageReference Include="Soenneker.Kiota.BearerAuthenticationProvider" Version="4.0.44" />
         <PackageReference Include="Soenneker.Utils.AsyncSingleton" Version="4.0.819" />
