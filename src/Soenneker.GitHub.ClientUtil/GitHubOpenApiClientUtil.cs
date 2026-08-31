@@ -1,29 +1,24 @@
 ﻿using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
+using Microsoft.Kiota.Abstractions.Authentication;
 using Microsoft.Kiota.Http.HttpClientLibrary;
-using Soenneker.Extensions.Configuration;
 using Soenneker.Extensions.ValueTask;
 using Soenneker.GitHub.Client.Http.Abstract;
 using Soenneker.GitHub.ClientUtil.Abstract;
 using Soenneker.GitHub.OpenApiClient;
-using Soenneker.Kiota.BearerAuthenticationProvider;
 using Soenneker.Utils.AsyncSingleton;
 
 namespace Soenneker.GitHub.ClientUtil;
 
-///<inheritdoc cref="IGitHubOpenApiClientUtil"/>
 public sealed class GitHubOpenApiClientUtil : IGitHubOpenApiClientUtil
 {
     private readonly AsyncSingleton<GitHubOpenApiClient> _client;
     private readonly IGitHubHttpClient _httpClientUtil;
-    private readonly IConfiguration _configuration;
 
-    public GitHubOpenApiClientUtil(IGitHubHttpClient httpClientUtil, IConfiguration configuration)
+    public GitHubOpenApiClientUtil(IGitHubHttpClient httpClientUtil)
     {
         _httpClientUtil = httpClientUtil;
-        _configuration = configuration;
         _client = new AsyncSingleton<GitHubOpenApiClient>(CreateClient);
     }
 
@@ -31,9 +26,7 @@ public sealed class GitHubOpenApiClientUtil : IGitHubOpenApiClientUtil
     {
         HttpClient httpClient = await _httpClientUtil.Get(token).NoSync();
 
-        var gitHubToken = _configuration.GetValueStrict<string>("GH:Token");
-
-        var requestAdapter = new HttpClientRequestAdapter(new BearerAuthenticationProvider(gitHubToken), httpClient: httpClient);
+        var requestAdapter = new HttpClientRequestAdapter(new AnonymousAuthenticationProvider(), httpClient: httpClient);
 
         return new GitHubOpenApiClient(requestAdapter);
     }
@@ -43,18 +36,11 @@ public sealed class GitHubOpenApiClientUtil : IGitHubOpenApiClientUtil
         return _client.Get(cancellationToken);
     }
 
-    /// <summary>
-    /// Releases resources used by the current instance.
-    /// </summary>
     public void Dispose()
     {
         _client.Dispose();
     }
 
-    /// <summary>
-    /// Asynchronously releases resources used by the current instance.
-    /// </summary>
-    /// <returns>A task that represents the asynchronous operation.</returns>
     public ValueTask DisposeAsync()
     {
         return _client.DisposeAsync();

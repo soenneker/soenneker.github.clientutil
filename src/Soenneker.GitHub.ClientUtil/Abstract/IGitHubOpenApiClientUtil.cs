@@ -6,14 +6,14 @@ using Soenneker.GitHub.OpenApiClient;
 namespace Soenneker.GitHub.ClientUtil.Abstract;
 
 /// <summary>
-/// A .NET thread-safe singleton HttpClient for 
+/// Provides lazy access to a cached generated GitHub REST API client.
 /// </summary>
 public interface IGitHubOpenApiClientUtil : IDisposable, IAsyncDisposable
 {
     /// <summary>
-    /// Gets the value.
+    /// Gets the cached GitHub API client, creating it on first use.
     /// </summary>
-    /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A task containing the result of the operation.</returns>
+    /// <param name="cancellationToken">Token used to cancel retrieval.</param>
+    /// <returns>The generated GitHub API client.</returns>
     ValueTask<GitHubOpenApiClient> Get(CancellationToken cancellationToken = default);
 }
