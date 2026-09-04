@@ -46,6 +46,5 @@
     <ItemGroup>
         <PackageReference Include="Soenneker.GitHub.Client.Http" Version="4.0.1427" />
         <PackageReference Include="Soenneker.GitHub.OpenApiClient" Version="4.0.234" />
-        <PackageReference Include="Soenneker.Utils.AsyncSingleton" Version="4.0.831" />
     </ItemGroup>
 </Project>
