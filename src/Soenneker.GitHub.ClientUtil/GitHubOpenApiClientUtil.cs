@@ -11,6 +11,7 @@ using Soenneker.Utils.AsyncSingleton;
 
 namespace Soenneker.GitHub.ClientUtil;
 
+/// <inheritdoc cref="IGitHubOpenApiClientUtil" />
 public sealed class GitHubOpenApiClientUtil : IGitHubOpenApiClientUtil
 {
     private readonly AsyncSingleton<GitHubOpenApiClient> _client;
