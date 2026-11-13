@@ -46,6 +46,6 @@
 
     <ItemGroup>
         <PackageReference Include="Soenneker.GitHub.Client.Http" Version="11.0.1559" />
-        <PackageReference Include="Soenneker.GitHub.OpenApiClient" Version="11.0.303" />
+        <PackageReference Include="Soenneker.GitHub.OpenApiClient" Version="11.0.304" />
     </ItemGroup>
 </Project>
